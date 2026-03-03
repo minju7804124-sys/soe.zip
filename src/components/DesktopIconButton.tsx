@@ -1,21 +1,25 @@
 'use client';
 
-import type { DesktopIcon } from '@/components/types';
+import Image from 'next/image';
+import type { IconItem } from '@/components/types';
 
 type DesktopIconButtonProps = {
-  icon: DesktopIcon;
+  item: IconItem;
+  selected: boolean;
+  onSelect: (id: string) => void;
   onOpen: (id: string) => void;
 };
 
-export function DesktopIconButton({ icon, onOpen }: DesktopIconButtonProps) {
+export function DesktopIconButton({ item, selected, onSelect, onOpen }: DesktopIconButtonProps) {
   return (
     <button
-      onClick={() => onOpen(icon.id)}
-      className="group flex flex-col items-center gap-2 rounded-lg p-3 text-center transition hover:bg-cyan-100/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-200"
-      aria-label={`Open ${icon.label}`}
+      onClick={() => onSelect(item.id)}
+      onDoubleClick={() => onOpen(item.id)}
+      className={`flex w-[84px] flex-col items-center gap-1 p-1 text-white ${selected ? 'bg-[#0a3aa9]/70' : 'hover:bg-white/10'}`}
+      aria-label={item.label}
     >
-      <span className="text-3xl drop-shadow">{icon.emoji}</span>
-      <span className="text-xs font-medium tracking-wide text-cyan-100 group-hover:text-white">{icon.label}</span>
+      <Image src={item.icon} alt="" width={36} height={36} className="pixelated" />
+      <span className="text-center text-[11px] leading-tight [text-shadow:1px_1px_0_#000]">{item.label}</span>
     </button>
   );
 }
