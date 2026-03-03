@@ -1,13 +1,14 @@
-import type { ReactNode } from 'react';
+export type AppId = 'works' | 'ai-film' | 'fashion-pack' | 'about' | 'cv' | 'contact';
 
 export type DesktopIcon = {
-  id: string;
+  id: AppId;
   label: string;
-  emoji: string;
+  icon: string;
 };
 
-export type WindowConfig = {
-  id: string;
+export type AppWindowConfig = {
+  id: AppId;
   title: string;
-  content: ReactNode;
+  width: number;
+  height: number;
 };
