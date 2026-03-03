@@ -4,21 +4,18 @@ import type { DesktopIcon } from '@/components/types';
 
 type DesktopIconButtonProps = {
   icon: DesktopIcon;
-  selected: boolean;
-  onSelect: (id: DesktopIcon['id']) => void;
-  onOpen: (id: DesktopIcon['id']) => void;
+  onOpen: (id: string) => void;
 };
 
-export function DesktopIconButton({ icon, selected, onSelect, onOpen }: DesktopIconButtonProps) {
+export function DesktopIconButton({ icon, onOpen }: DesktopIconButtonProps) {
   return (
     <button
-      onClick={() => onSelect(icon.id)}
-      onDoubleClick={() => onOpen(icon.id)}
-      className={`flex w-20 flex-col items-center gap-1 p-1 text-center text-white ${selected ? 'bg-[#000080]/70' : 'hover:bg-[#000080]/40'}`}
+      onClick={() => onOpen(icon.id)}
+      className="group flex flex-col items-center gap-2 rounded-lg p-3 text-center transition hover:bg-cyan-100/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-200"
       aria-label={`Open ${icon.label}`}
     >
-      <img src={icon.icon} alt="" className="h-10 w-10 [image-rendering:pixelated]" />
-      <span className="text-[11px] leading-tight">{icon.label}</span>
+      <span className="text-3xl drop-shadow">{icon.emoji}</span>
+      <span className="text-xs font-medium tracking-wide text-cyan-100 group-hover:text-white">{icon.label}</span>
     </button>
   );
 }

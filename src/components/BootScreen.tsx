@@ -6,18 +6,18 @@ type BootScreenProps = {
 
 export function BootScreen({ onComplete }: BootScreenProps) {
   return (
-    <div className="absolute inset-0 z-[200] flex items-center justify-center bg-[#070707] p-4 text-[#01ff8c]">
-      <div className="w-full max-w-lg border-2 border-[#3d3d3d] bg-black p-5 font-mono text-sm shadow-[6px_6px_0_#202020]">
-        <p className="mb-4 text-xs text-[#8cbf95]">SOE Portfolio OS v98.1</p>
-        <p className="animate-pulse">Extracting soe.zip...</p>
-        <div className="mt-4 h-4 border border-[#1f6a35] bg-[#03130a] p-[2px]">
-          <div className="h-full w-2/3 animate-[boot_1s_steps(6,end)_infinite] bg-[#1cff7a]" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#050812] text-cyan-100">
+      <div className="w-full max-w-xl rounded-xl border border-cyan-200/20 bg-panel/80 p-8 shadow-glow backdrop-blur">
+        <p className="mb-3 text-sm uppercase tracking-[0.28em] text-cyan-200/80">Boot sequence</p>
+        <h1 className="text-2xl font-semibold md:text-3xl">Extracting soe.zip...</h1>
+        <div className="mt-6 h-2 w-full overflow-hidden rounded bg-cyan-100/10">
+          <div className="h-full w-2/3 animate-pulse bg-gradient-to-r from-accent to-accent2" />
         </div>
         <button
           onClick={onComplete}
-          className="mt-5 border-2 border-[#c0c0c0] border-r-[#1d1d1d] border-b-[#1d1d1d] bg-[#bdbdbd] px-3 py-1 font-sans text-xs font-bold text-black active:border-l-[#1d1d1d] active:border-t-[#1d1d1d]"
+          className="mt-6 rounded border border-cyan-100/40 px-4 py-2 text-sm font-medium transition hover:bg-cyan-100/10"
         >
-          SKIP
+          Skip
         </button>
       </div>
     </div>
