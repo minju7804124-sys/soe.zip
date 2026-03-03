@@ -6,19 +6,21 @@ type BootScreenProps = {
 
 export function BootScreen({ onComplete }: BootScreenProps) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#050812] text-cyan-100">
-      <div className="w-full max-w-xl rounded-xl border border-cyan-200/20 bg-panel/80 p-8 shadow-glow backdrop-blur">
-        <p className="mb-3 text-sm uppercase tracking-[0.28em] text-cyan-200/80">Boot sequence</p>
-        <h1 className="text-2xl font-semibold md:text-3xl">Extracting soe.zip...</h1>
-        <div className="mt-6 h-2 w-full overflow-hidden rounded bg-cyan-100/10">
-          <div className="h-full w-2/3 animate-pulse bg-gradient-to-r from-accent to-accent2" />
+    <div className="absolute inset-0 z-[100] flex items-center justify-center bg-[#021437] text-white">
+      <div className="w-[min(92%,520px)] border-2 border-[#d6d6d6] bg-[#c0c0c0] p-1 shadow-[6px_6px_0_#1a1a1a]">
+        <div className="border-2 border-t-white border-l-white border-r-[#5a5a5a] border-b-[#5a5a5a] bg-[#efefef] p-6 font-mono">
+          <p className="text-xs text-[#0f3f92]">Booting Portfolio OS 98...</p>
+          <h2 className="mt-2 text-xl text-black">Extracting soe.zip...</h2>
+          <div className="mt-5 h-5 border border-black bg-white p-[2px]">
+            <div className="h-full w-2/3 animate-pulse bg-[#0f3f92]" />
+          </div>
+          <button
+            onClick={onComplete}
+            className="mt-4 border-2 border-t-white border-l-white border-r-[#666] border-b-[#666] bg-[#d7d7d7] px-4 py-1 text-sm text-black"
+          >
+            SKIP
+          </button>
         </div>
-        <button
-          onClick={onComplete}
-          className="mt-6 rounded border border-cyan-100/40 px-4 py-2 text-sm font-medium transition hover:bg-cyan-100/10"
-        >
-          Skip
-        </button>
       </div>
     </div>
   );

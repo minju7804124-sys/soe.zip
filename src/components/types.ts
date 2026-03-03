@@ -1,13 +1,15 @@
 import type { ReactNode } from 'react';
 
-export type DesktopIcon = {
+export type IconItem = {
   id: string;
   label: string;
-  emoji: string;
+  icon: string;
 };
 
-export type WindowConfig = {
+export type WindowDefinition = {
   id: string;
   title: string;
   content: ReactNode;
+  widthClass?: string;
+  heightClass?: string;
 };

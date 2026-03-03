@@ -2,25 +2,28 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { BootScreen } from '@/components/BootScreen';
-import { DesktopIconButton } from '@/components/DesktopIconButton';
-import { DesktopWindow } from '@/components/DesktopWindow';
+import { Desktop } from '@/components/Desktop';
+import { MonitorFrame } from '@/components/MonitorFrame';
 import { ProjectCard } from '@/components/ProjectCard';
-import type { DesktopIcon } from '@/components/types';
-import { projects } from '@/data/portfolio';
+import { Screen } from '@/components/Screen';
+import { Taskbar } from '@/components/Taskbar';
+import type { IconItem, WindowDefinition } from '@/components/types';
+import { WindowManager, useWindowState } from '@/components/WindowManager';
+import { filmProjects, worksProjects } from '@/data/portfolio';
 
-const icons: DesktopIcon[] = [
-  { id: 'works', label: 'WORKS', emoji: '🗂️' },
-  { id: 'ai-film', label: 'AI FILM', emoji: '🎬' },
-  { id: 'fashion-pack', label: 'FASHION PACK', emoji: '🧥' },
-  { id: 'about', label: 'ABOUT.txt', emoji: '📄' },
-  { id: 'cv', label: 'CV.pdf', emoji: '📕' },
-  { id: 'contact', label: 'CONTACT', emoji: '📡' }
+const icons: IconItem[] = [
+  { id: 'works', label: 'WORKS', icon: '/icons/folder.svg' },
+  { id: 'ai-film', label: 'AI FILM', icon: '/icons/folder.svg' },
+  { id: 'fashion-pack', label: 'FASHION PACK', icon: '/icons/folder.svg' },
+  { id: 'about', label: 'ABOUT.txt', icon: '/icons/txt.svg' },
+  { id: 'cv', label: 'CV.pdf', icon: '/icons/pdf.svg' },
+  { id: 'contact', label: 'CONTACT', icon: '/icons/contact.svg' }
 ];
 
 export default function Home() {
   const [booted, setBooted] = useState(false);
-  const [openWindows, setOpenWindows] = useState<string[]>([]);
-  const [focusedId, setFocusedId] = useState<string>('');
+  const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setBooted(true), 1000);
@@ -28,128 +31,131 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const onEscape = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') return;
-      setOpenWindows((prev) => prev.slice(0, -1));
-    };
-
-    window.addEventListener('keydown', onEscape);
-    return () => window.removeEventListener('keydown', onEscape);
+    const update = () => setIsMobile(window.innerWidth < 900);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
   }, []);
 
-  const openWindow = (id: string) => {
-    setOpenWindows((prev) => {
-      if (prev.includes(id)) return prev;
-      return [...prev, id];
-    });
-    setFocusedId(id);
-  };
-
-  const closeWindow = (id: string) => {
-    setOpenWindows((prev) => prev.filter((windowId) => windowId !== id));
-    setFocusedId((prev) => (prev === id ? '' : prev));
-  };
-
-  const windows = useMemo(
-    () => ({
-      works: {
-        title: 'WORKS',
+  const windows = useMemo<WindowDefinition[]>(
+    () => [
+      {
+        id: 'works',
+        title: 'WORKS.EXE',
+        widthClass: 'w-[520px]',
+        heightClass: 'h-[390px]',
         content: (
           <div>
-            <p className="mb-4 text-sm text-cyan-100/80">Selected projects across AI, film, and fashion technology.</p>
-            <div className="grid gap-4 md:grid-cols-2">
-              {projects.map((project) => (
+            <p className="mb-2 text-xs">Selected projects, coded and art-directed for narrative-first interfaces.</p>
+            <div className="grid gap-2 md:grid-cols-2">
+              {worksProjects.map((project) => (
                 <ProjectCard key={project.title} project={project} />
               ))}
             </div>
           </div>
         )
       },
-      'ai-film': {
-        title: 'AI FILM',
+      {
+        id: 'ai-film',
+        title: 'AI FILM.MOV',
+        widthClass: 'w-[500px]',
+        heightClass: 'h-[360px]',
         content: (
-          <div className="space-y-3 text-sm leading-relaxed text-cyan-100">
-            <p>
-              I create AI-native short films by combining narrative direction, diffusion-based image generation, and editing systems.
-            </p>
-            <p>Workflow: script → moodboards → model prompts → sequence stitching → color and sound.</p>
+          <div className="grid gap-2 md:grid-cols-2">
+            {filmProjects.map((project) => (
+              <ProjectCard key={project.title} project={project} />
+            ))}
           </div>
         )
       },
-      'fashion-pack': {
+      {
+        id: 'fashion-pack',
         title: 'FASHION PACK',
         content: (
-          <ul className="list-disc space-y-2 pl-5 text-sm text-cyan-100">
-            <li>Trend decks with synthetic references and material studies.</li>
-            <li>Editorial scene generation and lookbook concepts.</li>
-            <li>Prompt libraries for repeatable style directions.</li>
-          </ul>
-        )
-      },
-      about: {
-        title: 'ABOUT.txt',
-        content: (
-          <p className="text-sm leading-relaxed text-cyan-100">
-            Senior frontend developer blending cinematic visuals with production-grade web engineering. Specialized in Next.js,
-            design systems, and creative AI workflows.
-          </p>
-        )
-      },
-      cv: {
-        title: 'CV.pdf',
-        content: (
-          <div className="space-y-3 text-sm text-cyan-100">
-            <p>Download CV:</p>
-            <a href="#" className="inline-flex rounded border border-cyan-100/40 px-3 py-2 hover:bg-cyan-100/10">
-              Placeholder CV link
-            </a>
+          <div className="space-y-2 font-mono text-xs">
+            <p>packaging mannequin // concept module</p>
+            <div className="border border-dashed border-black bg-white p-3">
+              Placeholder deck for a modular mannequin package system:
+              <ul className="ml-4 list-disc">
+                <li>flat-pack retail silhouette</li>
+                <li>AR-assisted assembly marks</li>
+                <li>recycled PP shell + holographic label</li>
+              </ul>
+            </div>
           </div>
         )
       },
-      contact: {
-        title: 'CONTACT',
+      {
+        id: 'about',
+        title: 'ABOUT.TXT',
         content: (
-          <div className="space-y-2 text-sm text-cyan-100">
+          <div className="h-full bg-black p-3 font-mono text-sm text-[#75ff6a]">
+            <p>&gt; Senior creative frontend developer.</p>
+            <p>&gt; Building brand worlds that feel like software artifacts.</p>
+            <p>&gt; Next.js / TypeScript / AI film workflows / fashion-tech.</p>
+            <span className="mt-2 inline-block h-4 w-2 animate-pulse bg-[#75ff6a]" />
+          </div>
+        )
+      },
+      {
+        id: 'cv',
+        title: 'CV.PDF',
+        content: (
+          <div className="space-y-2 text-xs">
+            <div className="flex h-48 items-center justify-center border border-black bg-white">PDF preview placeholder</div>
+            <div className="flex gap-2">
+              <a href="/cv.pdf" target="_blank" rel="noreferrer" className="win98-btn px-3 py-1">
+                Open
+              </a>
+              <a href="/cv.pdf" download className="win98-btn px-3 py-1">
+                Download
+              </a>
+            </div>
+          </div>
+        )
+      },
+      {
+        id: 'contact',
+        title: 'CONTACT',
+        widthClass: 'w-[340px]',
+        heightClass: 'h-[220px]',
+        content: (
+          <div className="space-y-1 text-xs">
             <p>Email: hello@soe.zip</p>
-            <p>LinkedIn: linkedin.com/in/soe-zip</p>
             <p>Instagram: @soe.zip</p>
+            <p>LinkedIn: linkedin.com/in/soe-zip</p>
+            <p>Are.na: are.na/soe-zip</p>
           </div>
         )
       }
-    }),
+    ],
     []
   );
 
+  const { openOrder, focusedId, definitions, openWindow, closeWindow, setFocusedId } = useWindowState(windows);
+
   return (
-    <main className="relative min-h-screen overflow-hidden bg-surface bg-iridescent px-5 py-8 text-cyan-50">
-      {!booted ? <BootScreen onComplete={() => setBooted(true)} /> : null}
+    <main className="flex min-h-screen items-center justify-center bg-[#1a1a28] p-3">
+      <MonitorFrame>
+        <Screen>
+          {!booted && <BootScreen onComplete={() => setBooted(true)} />}
 
-      <div className="pointer-events-none absolute inset-0 opacity-20 [background-image:linear-gradient(to_bottom,transparent_95%,rgba(255,255,255,0.08)_100%)] [background-size:100%_4px]" />
+          <Desktop icons={icons} selectedId={selectedIcon} onSelect={setSelectedIcon} onOpen={openWindow} mobile={isMobile} />
 
-      <header className="mb-10">
-        <h1 className="text-2xl font-semibold tracking-[0.2em] text-white md:text-3xl">soe.zip // Portfolio OS</h1>
-        <p className="mt-2 text-sm text-cyan-100/80">Retro-futuristic interface. Recruiter-friendly clarity.</p>
-      </header>
+          <div className={`absolute inset-0 ${isMobile ? 'overflow-y-auto px-2 pb-16 pt-[220px]' : ''}`}>
+            <WindowManager
+              openOrder={openOrder}
+              focusedId={focusedId}
+              definitions={definitions}
+              onClose={closeWindow}
+              onFocus={setFocusedId}
+              mobile={isMobile}
+            />
+          </div>
 
-      <section aria-label="Desktop icons" className="grid max-w-sm grid-cols-3 gap-2">
-        {icons.map((icon) => (
-          <DesktopIconButton key={icon.id} icon={icon} onOpen={openWindow} />
-        ))}
-      </section>
-
-      {openWindows.map((id, index) => {
-        const windowData = windows[id as keyof typeof windows];
-        if (!windowData) return null;
-
-        const isFocused = focusedId === id;
-        const zIndex = isFocused ? 40 : 20 + index;
-
-        return (
-          <DesktopWindow key={id} id={id} title={windowData.title} onClose={closeWindow} zIndex={zIndex} onFocus={setFocusedId}>
-            {windowData.content}
-          </DesktopWindow>
-        );
-      })}
+          <Taskbar booted={booted} />
+        </Screen>
+      </MonitorFrame>
     </main>
   );
 }

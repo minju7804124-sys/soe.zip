@@ -7,30 +7,23 @@ type ProjectCardProps = {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <article className="overflow-hidden rounded-xl border border-cyan-100/20 bg-panel/80 shadow-glow">
-      <div className="relative h-40 w-full">
+    <article className="border border-[#7a7a7a] bg-white p-2">
+      <div className="relative h-24 w-full overflow-hidden border border-black">
         <Image src={project.thumbnail} alt={project.title} fill className="object-cover" />
       </div>
-      <div className="space-y-3 p-4">
-        <h3 className="text-lg font-semibold text-cyan-50">{project.title}</h3>
-        <p className="text-sm text-cyan-100/80">{project.logline}</p>
-        <p className="text-xs uppercase tracking-wider text-cyan-300">Role: {project.role}</p>
-        <div className="flex flex-wrap gap-2">
-          {project.tools.map((tool) => (
-            <span key={tool} className="rounded-full border border-cyan-100/30 px-2 py-1 text-xs text-cyan-100">
-              {tool}
-            </span>
-          ))}
-        </div>
-        <a
-          href={project.link}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex rounded border border-cyan-100/40 px-3 py-1.5 text-sm font-medium transition hover:bg-cyan-100/10"
-        >
-          Open project
-        </a>
+      <h3 className="mt-2 text-sm font-bold">{project.title}</h3>
+      <p className="text-xs">{project.logline}</p>
+      <p className="mt-1 text-[11px]"><strong>Role:</strong> {project.role}</p>
+      <div className="mt-1 flex flex-wrap gap-1">
+        {project.tools.map((tool) => (
+          <span key={tool} className="border border-[#969696] bg-[#e6e6e6] px-1 text-[10px]">
+            {tool}
+          </span>
+        ))}
       </div>
+      <a href={project.link} target="_blank" rel="noreferrer" className="mt-2 inline-block text-xs text-[#0a3aa9] underline">
+        Open project ↗
+      </a>
     </article>
   );
 }
