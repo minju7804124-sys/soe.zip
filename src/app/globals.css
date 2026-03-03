@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 * {
@@ -13,11 +13,19 @@
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background: #0b1220;
-  color: #ecfeff;
+  font-family: 'Tahoma', 'MS Sans Serif', 'Segoe UI', sans-serif;
+  color: #111;
 }
 
 a {
   color: inherit;
+}
+
+@keyframes boot {
+  from {
+    width: 5%;
+  }
+  to {
+    width: 90%;
+  }
 }
