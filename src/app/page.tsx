@@ -68,11 +68,27 @@ export default function Home() {
       'ai-film': {
         title: 'AI FILM',
         content: (
-          <div className="space-y-3 text-sm leading-relaxed text-cyan-100">
+          <div className="space-y-4 text-sm leading-relaxed text-cyan-100">
+            <div className="relative w-full overflow-hidden rounded-lg pt-[56.25%] shadow-[0_2px_8px_0_rgba(63,69,81,0.16)]">
+              <iframe
+                title="SoE Canva Presentation"
+                loading="lazy"
+                className="absolute left-0 top-0 h-full w-full border-0"
+                src="https://www.canva.com/design/DAHDnU9-vXw/rNtW5Hse4xC99En_d0xlKg/view?embed"
+                allowFullScreen
+              />
+            </div>
             <p>
-              I create AI-native short films by combining narrative direction, diffusion-based image generation, and editing systems.
+              Minju Choi 님의{' '}
+              <a
+                href="https://www.canva.com/design/DAHDnU9-vXw/rNtW5Hse4xC99En_d0xlKg/view?utm_content=DAHDnU9-vXw&utm_campaign=designshare&utm_medium=embeds&utm_source=link"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-4 hover:text-white"
+              >
+                SoE!
+              </a>
             </p>
-            <p>Workflow: script → moodboards → model prompts → sequence stitching → color and sound.</p>
           </div>
         )
       },
