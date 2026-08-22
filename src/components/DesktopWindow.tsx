@@ -41,7 +41,6 @@ export function DesktopWindow(props: DesktopWindowProps) {
   const panel = (
     <section
       className={`win98-panel ${widthClass ?? 'w-[460px]'} ${heightClass ?? 'h-[340px]'} overflow-hidden text-black`}
-      style={{ zIndex }}
       role="dialog"
       aria-label={title}
       onMouseDown={() => onFocus(id)}
@@ -57,7 +56,9 @@ export function DesktopWindow(props: DesktopWindowProps) {
 
   return (
     <Draggable handle=".window-handle" defaultPosition={defaultPosition}>
-      <div className="absolute">{panel}</div>
+      <div className="absolute" style={{ zIndex }}>
+        {panel}
+      </div>
     </Draggable>
   );
 }
